@@ -1,6 +1,6 @@
 # Sumair Irshad — Portfolio
 
-A single-page developer portfolio for **Sumair Irshad** — Full Stack Developer, AI Engineer & Data Scientist based in Gilgit-Baltistan, Pakistan. Built as one self-contained HTML file styled like a JSON API explorer, with an alpine/glacier-inspired visual theme (slate blues, glacial teal, topographic gold) that ties together a Geoinformatics & Remote Sensing background with AI/software engineering work.
+A single-page developer portfolio for **Sumair Irshad** — Mobile App Developer and AI Engineer focused on Android and iOS apps based in Gilgit-Baltistan, Pakistan. Built as one self-contained HTML file styled like a JSON API explorer, with an alpine/glacier-inspired visual theme (slate blues, glacial teal, topographic gold) that ties together a Geoinformatics & Remote Sensing background with intelligent mobile product work.
 
 ## Live sections
 
