@@ -87,18 +87,34 @@
       animation:slideDown 0.7s ease-out;
     }
     @keyframes slideDown { 0%{ opacity:0; transform:translateY(-24px); } 100%{ opacity:1; transform:translateY(0); } }
-    nav .wrap { padding:18px 32px; display:flex; align-items:center; justify-content:space-between; }
+    nav .wrap { padding:18px 32px; display:flex; align-items:center; justify-content:space-between; position:relative; }
     @media (max-width:480px){ nav .wrap{ padding:14px 16px; } }
     .logo { font-family:var(--display); font-weight:600; font-size:17px; }
     @media (max-width:480px){ .logo{ font-size:15px; } }
     .logo .dim { color:var(--gold); }
+    .menu-toggle {
+      display:none; flex-direction:column; gap:4px; background:transparent; border:none;
+      padding:0; cursor:pointer;
+    }
+    .menu-toggle span {
+      display:block; width:22px; height:2px; background:var(--paper); border-radius:2px;
+      transition:transform .25s ease, opacity .25s ease;
+    }
     .navlinks { display:flex; gap:34px; font-family:var(--mono); font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase; list-style:none; }
     .navlinks a { color:var(--paper-dim); position:relative; transition:color .25s; padding-bottom:4px; display:flex; align-items:center; gap:6px; }
     .navlinks a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold); transition:width .25s; }
     .navlinks a:hover { color:var(--paper); }
     .navlinks a:hover::after { width:100%; }
     .navlinks a:focus-visible, a:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
-    @media (max-width:780px){ .navlinks { display:none; } }
+    @media (max-width:780px){
+      .menu-toggle { display:flex; }
+      .navlinks {
+        display:none; position:absolute; top:calc(100% + 10px); right:16px; left:16px;
+        flex-direction:column; gap:14px; padding:16px; background:rgba(11,21,33,0.96);
+        border:1px solid var(--line-strong); border-radius:8px;
+      }
+      .navlinks.open { display:flex; }
+    }
 
     /* ---------- HERO ---------- */
     .hero {
@@ -371,7 +387,12 @@
 <nav>
   <div class="wrap">
     <a href="#home" class="logo">sumair<span class="dim">.dev</span></a>
-    <ul class="navlinks">
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="navlinks" id="nav-links">
       <li><a href="#profile"><span class="route">GET</span> /profile</a></li>
       <li><a href="#experience"><span class="route">GET</span> /experience</a></li>
       <li><a href="#projects"><span class="route">GET</span> /projects</a></li>
@@ -767,6 +788,30 @@
 </footer>
 
 <script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('#nav-links');
+
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 780) {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
